@@ -52,6 +52,7 @@ def sepration(track_list):
     liveness = { "high" : [] , "low" : [] }
     tempo = { "high" : [] , "low" : [] }
 
+
 sp = authcode()
 tr = playlistitems(sp,id)
 print(len(tr))
