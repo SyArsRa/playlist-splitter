@@ -5,8 +5,10 @@ function inputcheck() {
   if (input != null) {
     if (input.value == undefined){
       button.disabled = true;
+      console.log("h")
     } else {
       button.disabled = false;
+      console.log("y")
     }
   }
 }
@@ -14,15 +16,15 @@ function inputcheck() {
 
 
 button.addEventListener("mouseover",function(event){
+  inputcheck()
   const div = document.getElementsByClassName("title");
   div[0].className = "titlehover";
-  inputcheck()
 })
 
 button.addEventListener("mouseout",function(event){
+  inputcheck()
   const div = document.getElementsByClassName("titlehover");
   div[0].className = "title";
-  inputcheck()
 })
 
 button.addEventListener("click",function(event) {

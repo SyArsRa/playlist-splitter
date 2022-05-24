@@ -23,6 +23,10 @@ body{
   text-decoration: none;
   text-transform: uppercase;
 }
+.btn-grad:disabled {
+  pointer-events:none
+  background-color: #6e7f80 !important;
+}
 .container {
   height: 200px;
   position: relative;
