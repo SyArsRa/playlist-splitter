@@ -23,9 +23,9 @@ body{
   text-decoration: none;
   text-transform: uppercase;
 }
-.btn-grad:disabled {
-  pointer-events:none
-  background-color: #6e7f80 !important;
+#hoverbtn {
+    opacity: 50;
+    position: absolute;
 }
 .container {
   height: 200px;
