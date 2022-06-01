@@ -8,12 +8,14 @@ from spotipy.oauth2 import SpotifyOAuth
 os.environ["SPOTIPY_CLIENT_ID"] = 'ebbeb9d031a344878ac299f009ef5a27'
 os.environ["SPOTIPY_CLIENT_SECRET"]='89be84be843e4627be7f5292846ecfd0'
 os.environ["SPOTIPY_REDIRECT_URI"]='http://localhost:8888/callback'
+
+"""temporary variables """
 playlistURL = "https://open.spotify.com/playlist/1t6sBuZrFpwsF80UYv9bes?si=f9a41048bd754b47"
 
 """Global Variable Declarations"""
 categories = ["danceability","energy","speechiness","acousticness","instrumentalness","valence","liveness"]
 
-"""Class that stores even song in the playlist_items"""
+"""Class that stores every song in the playlist_items"""
 class song:
     def __init__(self,id,danceability,energy,speechiness,acousticness,instrumentalness,valence,liveness,tempo):
         self.id = id
@@ -26,7 +28,7 @@ class song:
         self.liveness = liveness
         self.tempo = tempo
 
-"""function to get autuntication for use of api from spotify"""
+"""function to get authentication from Spotfiy to usee their api"""
 def authcode():
     scope = "playlist-read-private"
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
@@ -94,14 +96,7 @@ def filter_category(category_list,playlist_length):
         for y in category_list[x]:
             if len(category_list[x][y])/playlist_length <= 0.15:
                 del category_list[x]
-                break
-
-    #for i in categories:
-    #    try:
-    #        print(i , len(category_list[i]["high"]),len(category_list[i]["low"]))
-    #    except KeyError:
-    #        pass
-
+                break                
     return category_list
 
 """function that removes duplicate entries from the bigger playlist"""
