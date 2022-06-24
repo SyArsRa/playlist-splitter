@@ -35,7 +35,7 @@ button.addEventListener("click",function(event) {
       form.setAttribute("style", "color:#28282B");
       form.setAttribute("class", "formcenter");
       form.setAttribute("id","playlistForm");
-      form.setAttribute("action","analysis/");
+      form.setAttribute("action","playlist/");
       var playlist = document.createElement("input");
       playlist.setAttribute("type", "text");
       playlist.setAttribute("name", "playlistId");

@@ -38,7 +38,7 @@ def authcode():
 """extracts playlist from spotify api and then extracts their various characteristics
 (important note - playlist_items method on gets first 100 songs from playlist) and return a list of object song with each
 object storing a important informations about songs"""
-def playlistitems(sp,playlistURL):
+def playlistItems(sp,playlistURL):
     global categories
     start = 0
     total = 1
@@ -101,17 +101,19 @@ def sepration(track_list):
     return info_list
 
 """function that filters out and deletes smaller dictorinaries"""
-def filter_category(category_list,playlist_length):
+def filterCategory(category_list,playlist_length):
     global categories
     for x in categories:
-        for y in category_list[x]:
-            if len(category_list[x][y])/playlist_length <= 0.15:
-                del category_list[x]
-                break
+        try:
+            for y in category_list[x]:
+                if len(category_list[x][y])/playlist_length <= 0.15:
+                    del category_list[x]
+        except KeyError:
+            pass
     return category_list
 
 """function that removes duplicate entries from the bigger playlist"""
-def removing_duplicates(category_list):
+def removingDuplicates(category_list):
     for catA in category_list:
         for catB in category_list:
             if catA == catB:
@@ -124,9 +126,15 @@ def removing_duplicates(category_list):
                                 category_list[catB][ranB].remove(track)
                             else:
                                 category_list[catA][ranA].remove(track)
-    for i in categories:
-        try:
-            print(i , len(category_list[i]["high"]),len(category_list[i]["low"]))
-        except KeyError:
-            pass
-    return category_list
+    #for i in categories:
+    #    try:
+    #        print(i , len(category_list[i]["high"]),len(category_list[i]["low"]))
+    #    except KeyError:
+    #        pass
+    # return category_list
+
+def objToDict(song):
+    return song.__dict__
+
+def jsonToObj(json):
+    return song(json["id"],json["danceability"],json["energy"],json["speechiness"],json["acousticness"],json["instrumentalness"],json["valence"],json["liveness"],json["tempo"],json["name"],json["artist"],json["image"])

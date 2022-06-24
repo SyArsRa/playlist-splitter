@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    {% load static %}
+    <link rel="stylesheet" href = "{% static 'styles.css' %}">
+    <title>Spotify Playlist Slicer</title>
+  </head>
+  <body>
+    <nav>
+      <ul class="navbar">
+        <li class="centerFloat"><a href={% url 'home' %}><span class="material-symbols-outlined">home</span></a></li>
+      </ul>
+    </nav>
+    <div>
+    {% for genre,list in playlists.items %}
+      {% for type,songs in list.items %}
+      <div class="wrapperAnalysis">
+        <h3>{{type}} &nbsp {{genre}}</h3>
+          {% for song in songs %}
+          <h5 class="sideSlide">
+            <img src={{ song.image }} alt={{ song.name }} width="100px" height="100px"></img><br>
+            <div class="textBreak">
+            {{ song.name }} <br> By
+            {% for artist in song.artist %}
+              {{ artist }}
+            {% endfor %}
+          </div>
+          </h5>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    {% endfor %}
+  <script src="{% static 'scriptAnalysis.js' %}" ></script>}
+  </body>
+</html>

@@ -8,7 +8,7 @@ h1, h2{
 }
 
 /* NavBar */
-nav {
+nav .navbarPlaylist {
   width:90%;
   margin: 0 0 -1.4% 10%;
   border-top-left-radius: 20px;
@@ -17,11 +17,11 @@ nav {
   top: 0;
   height: 5%;
 }
-nav ul  {
+nav .navbarPlaylist ul  {
   overflow:auto;
   list-style-type: none;
 }
-nav li {
+nav .navbarPlaylist li {
   float: left;
   display: block;
   padding: 8px;
@@ -119,9 +119,10 @@ nav a:hover{
   -ms-transform: translate(-50%, -0%);
   transform: translate(-50%, -0%);
 }
-.wrapper {
+.wrapperPlaylist {
   display: block;
   width: 90%;
+  height: auto;
   margin-top:2.3%;
   margin-left:10%;
   margin-bottom:0.15%;
@@ -132,10 +133,31 @@ nav a:hover{
   border-bottom-left-radius: 20px;
   text-transform: capitalize;
 }
+.wrapperAnalysis {
+  display: flex;
+  overflow-x: scroll;
+  width: 96%;
+  margin: 2% 2% 2% 2% ;
+  background: #185a9d;
+  font-family: "Open Sans" sans-serif;
+  text-transform: lowercase;
+  color: #FFFFFF;
+  border-radius: 20px;
+  text-transform: capitalize;
+}
 .centerFloat{
   margin-left: 41.5%;
   display:inline-block;
   cursor: pointer;
+}
+.textBreak {
+  width: 100px;
+  overflow-x: hidden;
+}
+.sideSlide{
+  margin:1% 0.2% 1% 0.2%;
+  white-space:nowrap;
+  width: 80%;
 }
 /* Animation */
 
