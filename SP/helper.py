@@ -3,6 +3,7 @@ import spotipy
 import os
 from spotipy.oauth2 import SpotifyOAuth
 from dotenv import load_dotenv
+import json
 
 """Important Variable Declarations for api"""
 load_dotenv()
@@ -29,8 +30,7 @@ class song:
         self.image = image
 
 """function to get authentication from Spotfiy to usee their api"""
-def authcode():
-    scope = "playlist-read-private"
+def authcode(scope):
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
     return sp
 
@@ -38,11 +38,12 @@ def authcode():
 """extracts playlist from spotify api and then extracts their various characteristics
 (important note - playlist_items method on gets first 100 songs from playlist) and return a list of object song with each
 object storing a important informations about songs"""
-def playlistItems(sp,playlistURL):
+def playlistItems(playlistURL):
     global categories
     start = 0
     total = 1
     playlist = []
+    sp = authcode("playlist-read-private")
     while start < total:
         uri = []
         titles = {}
@@ -126,12 +127,12 @@ def removingDuplicates(category_list):
                                 category_list[catB][ranB].remove(track)
                             else:
                                 category_list[catA][ranA].remove(track)
-    #for i in categories:
-    #    try:
-    #        print(i , len(category_list[i]["high"]),len(category_list[i]["low"]))
-    #    except KeyError:
-    #        pass
-    
+    for i in categories:
+        try:
+            print(i , len(category_list[i]["high"]),len(category_list[i]["low"]))
+        except KeyError:
+            pass
+
     return category_list
 
 def objToDict(song):
@@ -139,3 +140,10 @@ def objToDict(song):
 
 def jsonToObj(json):
     return song(json["id"],json["danceability"],json["energy"],json["speechiness"],json["acousticness"],json["instrumentalness"],json["valence"],json["liveness"],json["tempo"],json["name"],json["artist"],json["image"])
+
+def createPlaylist(genre,type,songs):
+    sp = authcode("playlist-modify-public")
+    user = sp.me()
+    playlist = sp.user_playlist_create(user['id'], name=(type.capitalize()+" "+genre.capitalize()), public=True, collaborative=False, description='Sliced Playlist')
+    ids = [song.id for song in songs]
+    sp.user_playlist_add_tracks(user['id'],playlist['uri'],ids)
