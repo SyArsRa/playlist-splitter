@@ -131,7 +131,8 @@ def removingDuplicates(category_list):
     #        print(i , len(category_list[i]["high"]),len(category_list[i]["low"]))
     #    except KeyError:
     #        pass
-    # return category_list
+    
+    return category_list
 
 def objToDict(song):
     return song.__dict__
