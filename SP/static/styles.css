@@ -76,6 +76,19 @@ nav a:hover{
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.closebtn:hover {
+  color: black;
+}
 .title {
   height: 200px;
   margin-top:-1%;
@@ -94,7 +107,7 @@ nav a:hover{
   font-family: "Open Sans" sans-serif;
 }
 .titlecenter {
-  margin: 0;
+  margin-top: auto;
   position: absolute;
   top: 6.6%;
   left: 50%;
@@ -102,7 +115,7 @@ nav a:hover{
   transform: translate(-50%, 0%);
 }
 .moveleft {
-  margin: 0;
+  margin-top: auto;
   position: absolute;
   top: 6.6%;
   left: 15%;

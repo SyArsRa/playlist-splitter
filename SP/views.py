@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect , reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 from SP.helper import *
 import json
 # Create your views here.
@@ -14,7 +16,11 @@ def homepage(request):
 def playlist(request):
     global tracklist
     playlistId = request.POST.get('playlistId')
-    tracklist = playlistItems(playlistId)
+    try:
+        tracklist = playlistItems(playlistId)
+    except Exception:
+        messages.error(request,404)
+        return redirect('/SP/home/')
     jsonTrack = json.dumps(tracklist, default=objToDict)
     request.session["tracklist"] = jsonTrack
     return render(request,'playlist.html',{ 'playlist' : tracklist })
