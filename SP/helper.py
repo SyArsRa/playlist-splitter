@@ -135,12 +135,15 @@ def removingDuplicates(category_list):
 
     return category_list
 
+"""Function to convert object song to json"""
 def objToDict(song):
     return song.__dict__
 
+"""Function to convert a json formated data back to obj song type"""
 def jsonToObj(json):
     return song(json["id"],json["danceability"],json["energy"],json["speechiness"],json["acousticness"],json["instrumentalness"],json["valence"],json["liveness"],json["tempo"],json["name"],json["artist"],json["image"])
 
+"""Function used to create playlist on Spotify for users"""
 def createPlaylist(genre,type,songs):
     sp = authcode("playlist-modify-public")
     user = sp.me()

@@ -10,13 +10,14 @@
     <title>Spotify Playlist Slicer</title>
   </head>
   <body>
+    <!-- Checks if user is being redirect because of an error or not -->
     {% if messages %}
       {% for message in messages %}
         {% if message.tags == "error" %}
-          <div class="alert alert-danger">
-            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-            Playlist Id Incorrect
-          </div>
+          <span class="alert alert-danger" style="position:absolute;border-radius:0px 0px 4px 4px;text-align:center;width:100%;top:0;">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';top:0">&times;</span>
+                <h4>{{ message }}</h4>
+          </span>
         {% endif %}
       {% endfor %}
     {% endif %}

@@ -16,10 +16,11 @@ def homepage(request):
 def playlist(request):
     global tracklist
     playlistId = request.POST.get('playlistId')
+    #catching any exceptions that might occur when sending requests to Spotify API
     try:
         tracklist = playlistItems(playlistId)
     except Exception:
-        messages.error(request,404)
+        messages.error(request,'Incorrect Playlist link')
         return redirect('/SP/home/')
     jsonTrack = json.dumps(tracklist, default=objToDict)
     request.session["tracklist"] = jsonTrack
@@ -27,24 +28,41 @@ def playlist(request):
 
 @csrf_exempt
 def analysis(request):
+    #when request method is get
     if request.method == 'GET':
         tracklist = request.session["tracklist"]
         tracklist = json.loads(tracklist)
         tracklist = [jsonToObj(entry) for entry in tracklist]
-        sepratedPlaylist = sepration(tracklist)
-        sepratedPlaylist = filterCategory(sepratedPlaylist,len(tracklist))
-        sepratedPlaylist = removingDuplicates(sepratedPlaylist)
+        #catching any exceptions that might occur when sending requests to Spotify API
+        try:
+            sepratedPlaylist = sepration(tracklist)
+            sepratedPlaylist = filterCategory(sepratedPlaylist,len(tracklist))
+            sepratedPlaylist = removingDuplicates(sepratedPlaylist)
+        except Exception:
+            messages.error(request,'Unexpected Error, Please try again later')
+            return redirect('/SP/home/')
         request.session["created"] = []
         return render(request,'analysis.html',{ 'playlists' : sepratedPlaylist})
+    #runs when request method is not get
     else:
         tracklist = request.session["tracklist"]
         tracklist = json.loads(tracklist)
         tracklist = [jsonToObj(entry) for entry in tracklist]
-        sepratedPlaylist = sepration(tracklist)
-        sepratedPlaylist = filterCategory(sepratedPlaylist,len(tracklist))
-        sepratedPlaylist = removingDuplicates(sepratedPlaylist)
+        #catching any exceptions that might occur when sending requests to Spotify API
+        try:
+            sepratedPlaylist = sepration(tracklist)
+            sepratedPlaylist = filterCategory(sepratedPlaylist,len(tracklist))
+            sepratedPlaylist = removingDuplicates(sepratedPlaylist)
+        except Exception:
+            messages.error(request,'Unexpected Error, Please try again later')
+            return redirect('/SP/home/')
         genre, type  = request.POST.get("btnPlaylist").split()
         if genre+type not in request.session['created']:
             request.session["created"] += [genre+type]
-            createPlaylist(genre,type,sepratedPlaylist[genre][type])
+            #catching any exceptions that might occur when sending requests to Spotify API
+            try:
+                createPlaylist(genre,type,sepratedPlaylist[genre][type])
+            except Exception:
+                messages.error(request,'Unexpected Error, Please try again later')
+                return redirect('/SP/home/')
         return render(request,'analysis.html', { 'playlists' : sepratedPlaylist, 'created' : request.session['created']})

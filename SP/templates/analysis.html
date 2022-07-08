@@ -13,36 +13,37 @@
   <body>
     <a href={% url 'home' %} class="homeAnchor"><span class="material-symbols-outlined">home</span></a>
     <div>
-    {% for genre,list in playlists.items %}
-      {% for type,songs in list.items %}
-      <div class="wrapperAnalysis">
-        <div style="display:inline; margin:0.3% 1% 0 1%">
-        <h3 align="center">{{type}} &nbsp {{genre}}</h3>
+      <!-- loop through list and displayed each sliced playlist indivually  -->
+      {% for genre,list in playlists.items %}
+        {% for type,songs in list.items %}
+        <div class="wrapperAnalysis">
+          <div style="display:inline; margin:0.3% 1% 0 1%">
+          <h3 align="center">{{type}} &nbsp {{genre}}</h3>
 
-        <form align="center" action={% url 'analysis'%} method="post">
-          {% if genre|add:type in created%}
-            <button class="btnPlaylistCreated" value="{{ genre }} {{ type }}" type="submit" name="btnPlaylist" disabled>
-              <span class="material-symbols-outlined">done</span>
-            </button>
-          {% else %}
-            <button class="btnPlaylist" value="{{ genre }} {{ type }}" type="submit" name="btnPlaylist">Create</button>
-          {% endif %}
-        </form>
-      </div>
-          {% for song in songs %}
-          <h5 class="sideSlide">
-            <img src={{ song.image }} alt={{ song.name }} width="100px" height="100px"></img><br>
-            <div class="textBreak">
-            {{ song.name }} <br> By
-            {% for artist in song.artist %}
-              {{ artist }}
-            {% endfor %}
-          </div>
-          </h5>
+          <form align="center" action={% url 'analysis'%} method="post">
+            {% if genre|add:type in created%}
+              <button class="btnPlaylistCreated" value="{{ genre }} {{ type }}" type="submit" name="btnPlaylist" disabled>
+                <span class="material-symbols-outlined">done</span>
+              </button>
+            {% else %}
+              <button class="btnPlaylist" value="{{ genre }} {{ type }}" type="submit" name="btnPlaylist">Create</button>
+            {% endif %}
+          </form>
+        </div>
+            {% for song in songs %}
+            <h5 class="sideSlide">
+              <img src={{ song.image }} alt={{ song.name }} width="100px" height="100px"></img><br>
+              <div class="textBreak">
+              {{ song.name }} <br> By
+              {% for artist in song.artist %}
+                {{ artist }}
+              {% endfor %}
+            </div>
+            </h5>
+          {% endfor %}
+        </div>
         {% endfor %}
-      </div>
       {% endfor %}
-    {% endfor %}
   </div>
   <script src="{% static 'scriptAnalysis.js' %}" ></script>
   </body>
