@@ -8,6 +8,12 @@ import json
 
 @csrf_exempt
 def homepage(request):
+    list(messages.get_messages(request))
+    if request.method == "GET":
+        request.session["tracklist"] = []
+        return render(request,'homepage.html')
+
+def homepageError(request):
     if request.method == "GET":
         request.session["tracklist"] = []
         return render(request,'homepage.html')
@@ -21,7 +27,7 @@ def playlist(request):
         tracklist = playlistItems(playlistId)
     except Exception:
         messages.error(request,'Incorrect Playlist link')
-        return redirect('/')
+        return redirect('/Error/')
     jsonTrack = json.dumps(tracklist, default=objToDict)
     request.session["tracklist"] = jsonTrack
     return render(request,'playlist.html',{ 'playlist' : tracklist })
@@ -40,7 +46,7 @@ def analysis(request):
             sepratedPlaylist = removingDuplicates(sepratedPlaylist)
         except Exception:
             messages.error(request,'Unexpected Error, Please try again later')
-            return redirect('/')
+            return redirect('Error/')
         request.session["created"] = []
         return render(request,'analysis.html',{ 'playlists' : sepratedPlaylist})
     #runs when request method is not get
@@ -55,7 +61,7 @@ def analysis(request):
             sepratedPlaylist = removingDuplicates(sepratedPlaylist)
         except Exception:
             messages.error(request,'Unexpected Error, Please try again later')
-            return redirect('/')
+            return redirect('Error/')
         genre, type  = request.POST.get("btnPlaylist").split()
         if genre+type not in request.session['created']:
             request.session["created"] += [genre+type]
@@ -64,5 +70,5 @@ def analysis(request):
                 createPlaylist(genre,type,sepratedPlaylist[genre][type])
             except Exception:
                 messages.error(request,'Unexpected Error, Please try again later')
-                return redirect('/')
+                return redirect('Error/')
         return render(request,'analysis.html', { 'playlists' : sepratedPlaylist, 'created' : request.session['created']})
