@@ -21,7 +21,7 @@ def playlist(request):
         tracklist = playlistItems(playlistId)
     except Exception:
         messages.error(request,'Incorrect Playlist link')
-        return redirect('/SP/home/')
+        return redirect('')
     jsonTrack = json.dumps(tracklist, default=objToDict)
     request.session["tracklist"] = jsonTrack
     return render(request,'playlist.html',{ 'playlist' : tracklist })
@@ -40,7 +40,7 @@ def analysis(request):
             sepratedPlaylist = removingDuplicates(sepratedPlaylist)
         except Exception:
             messages.error(request,'Unexpected Error, Please try again later')
-            return redirect('/SP/home/')
+            return redirect('')
         request.session["created"] = []
         return render(request,'analysis.html',{ 'playlists' : sepratedPlaylist})
     #runs when request method is not get
@@ -55,7 +55,7 @@ def analysis(request):
             sepratedPlaylist = removingDuplicates(sepratedPlaylist)
         except Exception:
             messages.error(request,'Unexpected Error, Please try again later')
-            return redirect('/SP/home/')
+            return redirect('')
         genre, type  = request.POST.get("btnPlaylist").split()
         if genre+type not in request.session['created']:
             request.session["created"] += [genre+type]
@@ -64,5 +64,5 @@ def analysis(request):
                 createPlaylist(genre,type,sepratedPlaylist[genre][type])
             except Exception:
                 messages.error(request,'Unexpected Error, Please try again later')
-                return redirect('/SP/home/')
+                return redirect('')
         return render(request,'analysis.html', { 'playlists' : sepratedPlaylist, 'created' : request.session['created']})
