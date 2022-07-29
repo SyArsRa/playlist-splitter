@@ -127,12 +127,7 @@ def removingDuplicates(category_list):
                                 category_list[catB][ranB].remove(track)
                             else:
                                 category_list[catA][ranA].remove(track)
-    for i in categories:
-        try:
-            print(i , len(category_list[i]["high"]),len(category_list[i]["low"]))
-        except KeyError:
-            pass
-
+                                
     return category_list
 
 """Function to convert object song to json"""

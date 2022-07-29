@@ -1,0 +1,1 @@
+web: gunicorn SpotifySlicer.wsgi --log-file -
