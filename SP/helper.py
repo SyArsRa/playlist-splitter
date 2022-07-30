@@ -8,7 +8,7 @@ import json
 """Important Variable Declarations for api"""
 load_dotenv()
 os.environ["SPOTIPY_CLIENT_ID"] = 'ebbeb9d031a344878ac299f009ef5a27'
-os.environ["SPOTIPY_REDIRECT_URI"]='http://localhost:8888/callback'
+os.environ["SPOTIPY_REDIRECT_URI"]= 'http://localhost:8888/callback'
 
 """Global Variable Declarations"""
 categories = ["danceability","energy","speechiness","acousticness","instrumentalness","valence","liveness"]
@@ -127,7 +127,7 @@ def removingDuplicates(category_list):
                                 category_list[catB][ranB].remove(track)
                             else:
                                 category_list[catA][ranA].remove(track)
-                                
+
     return category_list
 
 """Function to convert object song to json"""
