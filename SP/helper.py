@@ -7,6 +7,8 @@ import json
 """Important Variable Declarations for api"""
 load_dotenv()
 os.environ["SPOTIPY_CLIENT_ID"] = 'ebbeb9d031a344878ac299f009ef5a27'
+cache_handler = spotipy.MemoryCacheHandler(token_info=os.environ.get('TOKEN_INFO'))
+
 
 """Global Variable Declarations"""
 categories = ["danceability","energy","speechiness","acousticness","instrumentalness","valence","liveness"]
@@ -29,7 +31,8 @@ class song:
 
 """function to get authentication from Spotfiy to usee their api"""
 def authcode(scope):
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get("SPOTIPY_CLIENT_ID"),client_secret=os.environ.get("SPOTIPY_CLIENT_SECRET"),redirect_uri=os.environ.get("SPOTIPY_REDIRECT_URI"),scope=scope))
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get("SPOTIPY_CLIENT_ID"),client_secret=os.environ.get("SPOTIPY_CLIENT_SECRET"),redirect_uri=os.environ.get("SPOTIPY_REDIRECT_URI"),scope=scope,cache_handler=cache_handler,
+                                               show_dialog=True))
     return sp
 
 
