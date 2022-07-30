@@ -7,8 +7,6 @@ import json
 """Important Variable Declarations for api"""
 load_dotenv()
 os.environ["SPOTIPY_CLIENT_ID"] = 'ebbeb9d031a344878ac299f009ef5a27'
-cache_handler = spotipy.MemoryCacheHandler(token_info=os.environ.get('TOKEN_INFO'))
-
 
 """Global Variable Declarations"""
 categories = ["danceability","energy","speechiness","acousticness","instrumentalness","valence","liveness"]
@@ -30,21 +28,22 @@ class song:
         self.image = image
 
 """function to get authentication from Spotfiy to usee their api"""
-def authcode(scope):
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get("SPOTIPY_CLIENT_ID"),client_secret=os.environ.get("SPOTIPY_CLIENT_SECRET"),redirect_uri=os.environ.get("SPOTIPY_REDIRECT_URI"),scope=scope,cache_handler=cache_handler,
-                                               show_dialog=True))
+def authcode(scope,request):
+    cache_handler = spotipy.cache_handler.DjangoSessionCacheHandler(request)
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get("SPOTIPY_CLIENT_ID"),client_secret=os.environ.get("SPOTIPY_CLIENT_SECRET"),
+                            redirect_uri=os.environ.get("SPOTIPY_REDIRECT_URI"),scope=scope,cache_handler=cache_handler,show_dialog=True))
     return sp
 
 
 """extracts playlist from spotify api and then extracts their various characteristics
 (important note - playlist_items method on gets first 100 songs from playlist) and return a list of object song with each
 object storing a important informations about songs"""
-def playlistItems(playlistURL):
+def playlistItems(playlistURL,request):
     global categories
     start = 0
     total = 1
     playlist = []
-    sp = authcode("playlist-read-private")
+    sp = authcode("playlist-read-private",request)
     while start < total:
         uri = []
         titles = {}
@@ -140,8 +139,8 @@ def jsonToObj(json):
     return song(json["id"],json["danceability"],json["energy"],json["speechiness"],json["acousticness"],json["instrumentalness"],json["valence"],json["liveness"],json["tempo"],json["name"],json["artist"],json["image"])
 
 """Function used to create playlist on Spotify for users"""
-def createPlaylist(genre,type,songs):
-    sp = authcode("playlist-modify-public")
+def createPlaylist(genre,type,songs,request):
+    sp = authcode("playlist-modify-public",request)
     user = sp.me()
     playlist = sp.user_playlist_create(user['id'], name=(type.capitalize()+" "+genre.capitalize()), public=True, collaborative=False, description='Sliced Playlist')
     ids = [song.id for song in songs]

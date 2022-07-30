@@ -25,7 +25,7 @@ def playlist(request):
     playlistId = request.POST.get('playlistId')
     #catching any exceptions that might occur when sending requests to Spotify API
     try:
-        tracklist = playlistItems(playlistId)
+        tracklist = playlistItems(playlistId,request)
     except Exception:
         logging.exception("message")
         messages.error(request,'Incorrect Playlist link')
@@ -49,7 +49,7 @@ def analysis(request):
         except Exception:
             logging.exception("message")
             messages.error(request,'Unexpected Error, Please try again later')
-            return redirect('Error/')
+            return redirect('/Error/')
         request.session["created"] = []
         return render(request,'analysis.html',{ 'playlists' : sepratedPlaylist})
     #runs when request method is not get
@@ -65,15 +65,15 @@ def analysis(request):
         except Exception:
             logging.exception("message")
             messages.error(request,'Unexpected Error, Please try again later')
-            return redirect('Error/')
+            return redirect('/Error/')
         genre, type  = request.POST.get("btnPlaylist").split()
         if genre+type not in request.session['created']:
             request.session["created"] += [genre+type]
             #catching any exceptions that might occur when sending requests to Spotify API
             try:
-                createPlaylist(genre,type,sepratedPlaylist[genre][type])
+                createPlaylist(genre,type,sepratedPlaylist[genre][type],request)
             except Exception:
                 logging.exception("message")
                 messages.error(request,'Unexpected Error, Please try again later')
-                return redirect('Error/')
+                return redirect('/Error/')
         return render(request,'analysis.html', { 'playlists' : sepratedPlaylist, 'created' : request.session['created']})
