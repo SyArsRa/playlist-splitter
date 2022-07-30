@@ -4,11 +4,9 @@ import os
 from spotipy.oauth2 import SpotifyOAuth
 from dotenv import load_dotenv
 import json
-
 """Important Variable Declarations for api"""
 load_dotenv()
 os.environ["SPOTIPY_CLIENT_ID"] = 'ebbeb9d031a344878ac299f009ef5a27'
-os.environ["SPOTIPY_REDIRECT_URI"]= 'http://localhost:8888/callback'
 
 """Global Variable Declarations"""
 categories = ["danceability","energy","speechiness","acousticness","instrumentalness","valence","liveness"]
@@ -31,7 +29,7 @@ class song:
 
 """function to get authentication from Spotfiy to usee their api"""
 def authcode(scope):
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get("SPOTIPY_CLIENT_ID"),client_secret=os.environ.get("SPOTIPY_CLIENT_SECRET"),redirect_uri=os.environ.get("SPOTIPY_REDIRECT_URI"),scope=scope))
     return sp
 
 
