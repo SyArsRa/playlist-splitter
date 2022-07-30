@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from SP.helper import *
 import json
+import logging
 # Create your views here.
 
 @csrf_exempt
@@ -26,6 +27,7 @@ def playlist(request):
     try:
         tracklist = playlistItems(playlistId)
     except Exception:
+        logging.exception("message")
         messages.error(request,'Incorrect Playlist link')
         return redirect('/Error/')
     jsonTrack = json.dumps(tracklist, default=objToDict)
@@ -45,6 +47,7 @@ def analysis(request):
             sepratedPlaylist = filterCategory(sepratedPlaylist,len(tracklist))
             sepratedPlaylist = removingDuplicates(sepratedPlaylist)
         except Exception:
+            logging.exception("message")
             messages.error(request,'Unexpected Error, Please try again later')
             return redirect('Error/')
         request.session["created"] = []
@@ -60,6 +63,7 @@ def analysis(request):
             sepratedPlaylist = filterCategory(sepratedPlaylist,len(tracklist))
             sepratedPlaylist = removingDuplicates(sepratedPlaylist)
         except Exception:
+            logging.exception("message")
             messages.error(request,'Unexpected Error, Please try again later')
             return redirect('Error/')
         genre, type  = request.POST.get("btnPlaylist").split()
@@ -69,6 +73,7 @@ def analysis(request):
             try:
                 createPlaylist(genre,type,sepratedPlaylist[genre][type])
             except Exception:
+                logging.exception("message")
                 messages.error(request,'Unexpected Error, Please try again later')
                 return redirect('Error/')
         return render(request,'analysis.html', { 'playlists' : sepratedPlaylist, 'created' : request.session['created']})
