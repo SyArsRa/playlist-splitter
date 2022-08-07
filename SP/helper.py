@@ -1,9 +1,11 @@
 import sys
-import spotipy
 import os
-from spotipy.oauth2 import SpotifyOAuth
 from dotenv import load_dotenv
-import json
+from json import loads , dumps
+import requests
+from urllib.parse import quote
+
+
 """Important Variable Declarations for api"""
 load_dotenv()
 os.environ["SPOTIPY_CLIENT_ID"] = 'ebbeb9d031a344878ac299f009ef5a27'
@@ -28,31 +30,55 @@ class song:
         self.image = image
 
 """function to get authentication from Spotfiy to usee their api"""
-def authcode(scope,request):
-    cache_handler = spotipy.cache_handler.DjangoSessionCacheHandler(request)
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get("SPOTIPY_CLIENT_ID"),client_secret=os.environ.get("SPOTIPY_CLIENT_SECRET"),
-                            redirect_uri=os.environ.get("SPOTIPY_REDIRECT_URI"),scope=scope,cache_handler=cache_handler,show_dialog=True))
-    return sp
+def authcode():
+    scope = 'playlist-read-private playlist-modify-public playlist-modify-private'
+    payload = {
+        'client_id': os.environ.get("SPOTIPY_CLIENT_ID"),
+        'response_type': 'code',
+        'redirect_uri': os.environ.get("SPOTIPY_REDIRECT_URI"),
+        'scope': scope,
+        }
+    url_args = "&".join(["{}={}".format(key, quote(val)) for key, val in payload.items()])
+    auth_url = "{}/?{}".format("https://accounts.spotify.com/authorize", url_args)
+    return auth_url
 
+def tokens(code):
+    payload = {
+        "grant_type": "authorization_code",
+        "code": str(code),
+        "redirect_uri": os.environ.get("SPOTIPY_REDIRECT_URI"),
+        'client_id': os.environ.get("SPOTIPY_CLIENT_ID"),
+        'client_secret': os.environ.get("SPOTIPY_CLIENT_SECRET"),
+    }
+    response = requests.post("https://accounts.spotify.com/api/token", data=payload)
+    return loads(response.text)
+
+def Header(token):
+    return  {
+             "Accept" : "application/json",
+             "Content-Type": "application/json",
+             "Authorization": "Bearer {}".format(token['access_token'])
+            }
 
 """extracts playlist from spotify api and then extracts their various characteristics
 (important note - playlist_items method on gets first 100 songs from playlist) and return a list of object song with each
 object storing a important informations about songs"""
-def playlistItems(playlistURL,request):
+def playlistItems(playlistURL,token):
     global categories
     start = 0
     total = 1
     playlist = []
-    sp = authcode("playlist-read-private",request)
     while start < total:
         uri = []
         titles = {}
         artist = {}
         images = {}
-        names = sp.playlist_items(playlistURL,offset=start)
+        headers = Header(token)
+        names = requests.get(f"https://api.spotify.com/v1/playlists/{playlistURL}/tracks?offset={start}",headers=headers)
+        names = loads(names.text)
         total = names["total"]
         for y in range(len(names["items"])):
-            uri.append(names["items"][y]["track"]["uri"])
+            uri.append(names["items"][y]["track"]["id"])
             titles[names["items"][y]["track"]["uri"]] = names["items"][y]["track"]["name"]
             images[names["items"][y]["track"]["uri"]] = names["items"][y]["track"]["album"]["images"][0]["url"]
             art = []
@@ -64,8 +90,12 @@ def playlistItems(playlistURL,request):
                 art.append(artists["name"] + div)
                 iteration -= 1
             artist[names["items"][y]["track"]["uri"]] = art
-        features = sp.audio_features(uri)
-        for track in features:
+
+        uri = ','.join(uri)
+        features = requests.get(f"https://api.spotify.com/v1/audio-features?ids={uri}",headers=headers)
+        features = loads(features.text)
+
+        for track in features['audio_features']:
             data = ["high" if track[stat] > 0.5 else "low" for stat in categories]
             if int(track["tempo"]) > 108:
                 data += ["high"]
@@ -138,10 +168,37 @@ def objToDict(song):
 def jsonToObj(json):
     return song(json["id"],json["danceability"],json["energy"],json["speechiness"],json["acousticness"],json["instrumentalness"],json["valence"],json["liveness"],json["tempo"],json["name"],json["artist"],json["image"])
 
+"""returns Current User Id"""
+def me(token):
+    headers = Header(token)
+    me = requests.get("https://api.spotify.com/v1/me",headers=headers)
+    me = loads(me.text)
+    return me["id"]
+
 """Function used to create playlist on Spotify for users"""
-def createPlaylist(genre,type,songs,request):
-    sp = authcode("playlist-modify-public",request)
-    user = sp.me()
-    playlist = sp.user_playlist_create(user['id'], name=(type.capitalize()+" "+genre.capitalize()), public=True, collaborative=False, description='Sliced Playlist')
+def createPlaylist(genre,type,songs,token,userId):
+    payload = {
+        "name" : (type.capitalize()+" "+genre.capitalize()),
+        "public" : False,
+        "description" : "Sliced Playlist"
+    }
+
+    headers = Header(token)
+    playlistId = requests.post(f"https://api.spotify.com/v1/users/{userId}/playlists",data=dumps(payload),headers=headers)
+    playlistId = loads(playlistId.text)
+    playlistId['uri'] = playlistId['uri'].split(":")
+
     ids = [song.id for song in songs]
-    sp.user_playlist_add_tracks(user['id'],playlist['uri'],ids)
+    start = 0
+    if len(ids) > 100:
+        while (start + 100) <= len(ids):
+            payload = {
+                "uris": ids[start:start+100]
+                }
+            requests.post(f"https://api.spotify.com/v1/playlists/{playlistId['uri'][2]}/tracks",data=dumps(payload),headers=headers)
+            start + 100
+
+    payload = {
+        "uris": ids[start:len(ids)]
+        }
+    requests.post(f"https://api.spotify.com/v1/playlists/{playlistId['uri'][2]}/tracks",data=dumps(payload),headers=headers)
