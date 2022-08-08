@@ -71,7 +71,6 @@ nav a:hover{
   text-transform: lowercase;
   font-family: "Open Sans" sans-serif;
 }
-
 .btn-grad:hover{
   background-position: right center;
   color: #fff;
@@ -226,6 +225,57 @@ nav a:hover{
   font-size: 18px;
   font-family: "Open Sans" sans-serif;
 }
+.choiceTopContainer{
+  height: 200px;
+  margin-top:-1%;
+  background: #185a9d;
+  font-family: "Open Sans" sans-serif;
+  color: #FFFFFF;
+  display: flex;
+}
+.wrapperChoices{
+  display: flex;
+  flex-flow: row wrap;
+  height: 100%;
+  margin: 5% 5% 5% 5%;
+  justify-content: center;
+}
+.cards{
+  border-radius: 20px;
+  height: 300px;
+  width: 220px;
+  margin: 1% 1% 1% 1%;
+  background-color: #b3002d;
+  text-align: center;
+  color: #fff;
+  padding: 20px 10px;
+  word-wrap: break-word;
+}
+.cardBottom {
+  position: relative;
+  left: 5%;
+  word-wrap: break-word;
+}
+.cardsHover {
+  background: #43cea2 !important;
+}
+.btnChoice{
+  background: #185a9d;
+  margin-left: 40px;
+  padding: 5px 12px;
+  text-align: center;
+  border-radius: 20px;
+  font-size: 25px;
+  display: block;
+  color: #fff;
+  font-family: "Open Sans" sans-serif;
+}
+.btnChoice:hover{
+  outline: none;
+  box-shadow: none;
+  border: 0 !important;;
+  background: #43cea2;
+}
 /* Animation */
 
 @-webkit-keyframes moveLeft {
@@ -240,18 +290,18 @@ nav a:hover{
 }
 
 /*ScrollBar*/
-::-webkit-scrollbar {
-  width: 20px;
+*::-webkit-scrollbar {
+  width: 12px;
 }
-::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background: transparent;
 }
 
-::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background: #43cea2;
   border-radius: 10px;
-  border: 3px solid  #28282B;
+  border: 1px solid  #28282B;
 }
-:hover::-webkit-scrollbar {
-  width: 12px;
+*:hover::-webkit-scrollbar {
+  width: 8px;
 }

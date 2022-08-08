@@ -16,41 +16,26 @@ button.addEventListener("mouseout",function(event){
 
 //Button Click Listner to listen for click of the slice button
 button.addEventListener("click",function(event) {
-  //if statment to check if the button has been presssed already
-  if (button.className.includes("pressed")) {
-    //submit the form if the button is been pressed for the second time
-    document.getElementById("playlistForm").submit();
-  } else {
-    //creating a form  and input field for when the button is pressed for the first time
-    var title = document.getElementsByClassName("title");
-    title[0].className = "moveleft";
-    title = document.getElementsByClassName("moveleft");
-    title[0].ontransitionend = () => {
-      button.className += " pressed";
-      var form = document.createElement("form");
-      form.setAttribute("method", "post");
-      form.setAttribute("align", "center");
-      form.setAttribute("style", "color:#28282B");
-      form.setAttribute("class", "formcenter");
-      form.setAttribute("id","playlistForm");
-      form.setAttribute("action","/authorization/");
-      var playlist = document.createElement("input");
-      playlist.setAttribute("type", "text");
-      playlist.setAttribute("name", "playlistId");
-      playlist.setAttribute("id", "playid")
-      playlist.setAttribute("placeholder", "Enter Playlist URL");
-      form.appendChild(playlist);
-      button.innerHTML = "Submit!";
-
-      document.getElementById("topContainer").appendChild(form);
+  var title = document.getElementsByClassName("title");
+  title[0].className = "moveleft";
+  title = document.getElementsByClassName("moveleft");
+  title[0].ontransitionend = () => {
+  var form = document.createElement("form");
+  form.setAttribute("method", "post");
+  form.setAttribute("align", "center");
+  form.setAttribute("style", "color:#28282B");
+  form.setAttribute("class", "formcenter");
+  form.setAttribute("id","playlistForm");
+  form.setAttribute("action","/authorization/");
+  document.getElementById("topContainer").appendChild(form);
+  document.getElementById("playlistForm").submit();
     }
-  }
-})
+  })
 
 /*
 event listner which checks for the the form input field being empty or not and if empty disables the button, works only after the button
 has been pressed once
-*/
+
 document.getElementById("hoverbtn").addEventListener("mouseover", function(){
   input = document.getElementById("playid");
   if (input != null) {
@@ -61,3 +46,4 @@ document.getElementById("hoverbtn").addEventListener("mouseover", function(){
     }
   }
 })
+*/

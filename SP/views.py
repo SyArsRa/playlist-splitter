@@ -10,30 +10,31 @@ from logging import exception
 @csrf_exempt
 def homepage(request):
     list(messages.get_messages(request))
-    if request.method == "GET":
-        request.session["tracklist"] = []
-        return render(request,'homepage.html')
+    request.session["tracklist"] = []
+    return render(request,'homepage.html')
 
 def homepageError(request):
-    if request.method == "GET":
-        request.session["tracklist"] = []
-        return render(request,'homepage.html')
+    request.session["tracklist"] = []
+    return render(request,'homepage.html')
 
 @csrf_exempt
 def authorization(request):
-    request.session["playlistId"] = request.POST.get('playlistId')
     return redirect(authcode())
 
 def reponse(request):
     authcode = request.GET.get('code')
     request.session["token"] = tokens(authcode)
     request.session["userId"] = me(request.session["token"])
-    return redirect('/playlist/')
+    return redirect('/choice/')
+
+def choice(request):
+    items = playlists(request.session["token"])
+    return render(request,'choice.html',{ 'playlists': items })
 
 @csrf_exempt
 def playlist(request):
     global tracklist
-    playlistId = request.session["playlistId"]
+    playlistId = request.POST.get('playlistId')
     #catching any exceptions that might occur when sending requests to Spotify API
     try:
         tracklist = playlistItems(playlistId,request.session["token"])

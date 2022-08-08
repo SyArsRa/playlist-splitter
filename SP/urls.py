@@ -6,6 +6,7 @@ urlpatterns = [
     path('Error/',views.homepageError, name='homepageError'),
     path('authorization/',views.authorization, name='authorization'),
     path('response/',views.reponse, name='reponse'),
+    path('choice/',views.choice, name='choice'),
     path('playlist/',views.playlist, name='playlist'),
     path('analysis/',views.analysis, name='analysis'),
 ]

@@ -59,11 +59,13 @@ def Header(token):
              "Content-Type": "application/json",
              "Authorization": "Bearer {}".format(token['access_token'])
             }
+
 """Returns Users Playlists"""
 def playlists(token):
     headers = Header(token)
     response = requests.get("https://api.spotify.com/v1/me/playlists", headers=headers)
-    return response[items]
+    response = loads(response.text)
+    return response['items']
 
 """extracts playlist from spotify api and then extracts their various characteristics
 (important note - playlist_items method on gets first 100 songs from playlist) and return a list of object song with each

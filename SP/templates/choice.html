@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    {% load static %}
+    <link rel="stylesheet" href = "{% static 'styles.css' %}">
+    <title>Playlist Slicer</title>
+  </head>
+  <body>
+      <div class="choiceTopContainer">
+        <h1 class="title">Your Playlists</h1>
+      </div>
+      <div class="wrapperChoices">
+        <div class="cards">
+          <h2>Playlist Link </h2>
+          <div class="cardBottom">
+            <form align="center" action={% url 'playlist'%} method="post">
+              <input type="text" name="playlistId" placeholderEnter= "Enter A URL"></input>
+              <button type="submit" name="playlistId" class="btnChoice">Select</button>
+            </form>
+          </div>
+        </div>
+        {% for item in playlists %}
+          <div class="cards">
+            <img src=" {{ item.images.0.url }} " alt="{{ item.name }} image" width="50%" height="42%"></img>
+            <h2>{{ item.name }} </h2>
+            <div class="cardBottom">
+              <form align="center" action={% url 'playlist'%} method="post">
+                <button type="submit" name="playlistId" value="{{ item.id }}" class="btnChoice">Select</button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    <script src="{% static 'scriptChoice.js' %}" ></script>
+  </body>
+</html>
