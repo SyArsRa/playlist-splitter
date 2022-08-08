@@ -7,33 +7,36 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     {% load static %}
     <link rel="stylesheet" href = "{% static 'styles.css' %}">
-    <title>Spotify Playlist Slicer</title>
+    <title>Playlist Slicer</title>
   </head>
   <body>
+  <div class="flex-wrapper">
     <!-- Checks if user is being redirect because of an error or not -->
-    {% if messages %}
-      {% for message in messages %}
-        {% if message.tags == "error" %}
-          <span class="alert alert-danger" style="position:absolute;border-radius:0px 0px 4px 4px;text-align:center;width:100%;top:0;">
-            <span class="closebtn" onclick="this.parentElement.style.display='none';top:0">&times;</span>
-                <h4>{{ message }}</h4>
-          </span>
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-    <div class="title" id="ti">
-      <div class="titlecenter">
-        <h1>Slice Your Playlist!</h1>
+    <div>
+      {% if messages %}
+        {% for message in messages %}
+          {% if message.tags == "error" %}
+            <span class="alert alert-danger" style="position:absolute;border-radius:0px 0px 4px 4px;text-align:center;width:100%;top:0;">
+              <span class="closebtn" onclick="this.parentElement.style.display='none';top:0">&times;</span>
+                  <h4>{{ message }}</h4>
+            </span>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      <div class="colorContainer" id="topContainer">
+        <div class="title">
+          <h1>Slice Your Playlist!</h1>
+        </div>
       </div>
-    </div>
-    <div class="container">
-      <div class="center">
+      <div class="container">
           <!-- Span element to check for mouse hovers over the button after the button has been disabled -->
           <span id="hoverbtn" class="center">
             <button type="button" name="button" class="btn-grad" id="Slice">Slice!</button>
           </span>
       </div>
     </div>
+    <footer>Made Using <a href="https://developer.spotify.com">Spotify API</a></footer>
+  </div>
     <script src="{% static 'scriptHomepage.js' %}" ></script>
   </body>
 </html>

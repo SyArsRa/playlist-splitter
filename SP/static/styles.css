@@ -6,6 +6,15 @@ body{
 h1, h2{
   cursor: default;
 }
+footer, footer a{
+  top: 100%
+  bottom: 0;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  color: #fff !important;
+  text-decoration: none !important;
+}
 
 /* NavBar */
 nav .navbarPlaylist {
@@ -42,7 +51,12 @@ nav a:hover{
 }
 
 /* Classes */
-
+.flex-wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .btn-grad{
   background-image: linear-gradient(to right, #43cea2 0%, #185a9d  51%, #43cea2  100%);
   margin: 10px;
@@ -68,6 +82,25 @@ nav a:hover{
   height: 200px;
   position: relative;
 }
+.colorContainer{
+  height: 200px;
+  margin-top:-1%;
+  background: linear-gradient(90deg, #185a9d , #43cea2 );
+  font-family: "Open Sans" sans-serif;
+  text-transform: lowercase;
+  color: #FFFFFF;
+  display: flex;
+}
+.colorContainerHover {
+  height: 200px;
+  margin-top:-1%;
+  color: #FFFFFF;
+  background: linear-gradient(90deg , #43cea2  , #185a9d);
+  font-weight: "bold";
+  text-transform: uppercase;
+  font-family: "Open Sans" sans-serif;
+  display: flex;
+}
 .center {
   margin: 0;
   position: absolute;
@@ -89,24 +122,7 @@ nav a:hover{
 .closebtn:hover {
   color: black;
 }
-.title {
-  height: 200px;
-  margin-top:-1%;
-  background: linear-gradient(90deg, #185a9d , #43cea2 );
-  font-family: "Open Sans" sans-serif;
-  text-transform: lowercase;
-  color: #FFFFFF;
-}
-.titlehover {
-  height: 200px;
-  margin-top:-1%;
-  color: #FFFFFF;
-  background: linear-gradient(90deg , #43cea2  , #185a9d);
-  font-weight: "bold";
-  text-transform: uppercase;
-  font-family: "Open Sans" sans-serif;
-}
-.titlecenter {
+.title{
   margin-top: auto;
   position: absolute;
   top: 6.6%;

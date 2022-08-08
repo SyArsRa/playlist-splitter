@@ -59,15 +59,27 @@ def Header(token):
              "Content-Type": "application/json",
              "Authorization": "Bearer {}".format(token['access_token'])
             }
+"""Returns Users Playlists"""
+def playlists(token):
+    headers = Header(token)
+    response = requests.get("https://api.spotify.com/v1/me/playlists", headers=headers)
+    return response[items]
 
 """extracts playlist from spotify api and then extracts their various characteristics
 (important note - playlist_items method on gets first 100 songs from playlist) and return a list of object song with each
 object storing a important informations about songs"""
 def playlistItems(playlistURL,token):
     global categories
+
+    if "https://open.spotify.com/playlist/" in playlistURL:
+        playlistURL = playlistURL.split("/")
+        playlistURL = playlistURL[-1].split("?")
+        playlistURL = playlistURL[0]
+
     start = 0
     total = 1
     playlist = []
+
     while start < total:
         uri = []
         titles = {}
@@ -77,6 +89,7 @@ def playlistItems(playlistURL,token):
         names = requests.get(f"https://api.spotify.com/v1/playlists/{playlistURL}/tracks?offset={start}",headers=headers)
         names = loads(names.text)
         total = names["total"]
+
         for y in range(len(names["items"])):
             uri.append(names["items"][y]["track"]["id"])
             titles[names["items"][y]["track"]["uri"]] = names["items"][y]["track"]["name"]
@@ -84,9 +97,12 @@ def playlistItems(playlistURL,token):
             art = []
             div = ","
             iteration = len(names["items"][y]["track"]["artists"])
+
             for artists in names["items"][y]["track"]["artists"]:
+
                 if iteration == 1 :
                     div = ""
+
                 art.append(artists["name"] + div)
                 iteration -= 1
             artist[names["items"][y]["track"]["uri"]] = art
@@ -97,13 +113,17 @@ def playlistItems(playlistURL,token):
 
         for track in features['audio_features']:
             data = ["high" if track[stat] > 0.5 else "low" for stat in categories]
+
             if int(track["tempo"]) > 108:
                 data += ["high"]
             else:
                 data += ["low"]
+
             analyzed = song(track["uri"],data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],titles[track["uri"]],artist[track["uri"]],images[track["uri"]])
             playlist.append(analyzed)
+
         start += 100
+
     categories += ["tempo"]
     return playlist
 
@@ -196,7 +216,7 @@ def createPlaylist(genre,type,songs,token,userId):
                 "uris": ids[start:start+100]
                 }
             requests.post(f"https://api.spotify.com/v1/playlists/{playlistId['uri'][2]}/tracks",data=dumps(payload),headers=headers)
-            start + 100
+            start += 100
 
     payload = {
         "uris": ids[start:len(ids)]

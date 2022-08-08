@@ -1,19 +1,17 @@
-//Creating a constant variable to store slice button
-
+//Creating a constant variables
+const div = document.getElementById("topContainer");
 const button = document.getElementById("Slice");
 
-//Mouse hover listner to check for mouse hovering over the button to change title class element to titlehover
+//Mouse hover listner to check for mouse hovering over the button to change colorContainer class element to colorContainerHover
 
 button.addEventListener("mouseover",function(event){
-  const div = document.getElementsByClassName("title");
-  div[0].className = "titlehover";
+  div.className = "colorContainerHover";
 })
 
-//Mouse out listner to listen to mouse moving away from the button to change the class of titlehover class to title
+//Mouse out listner to listen to mouse moving away from the button to change the class of colorContainerHover class to colorContainer
 
 button.addEventListener("mouseout",function(event){
-  const div = document.getElementsByClassName("titlehover");
-  div[0].className = "title";
+  div.className = "colorContainer";
 })
 
 //Button Click Listner to listen for click of the slice button
@@ -24,7 +22,7 @@ button.addEventListener("click",function(event) {
     document.getElementById("playlistForm").submit();
   } else {
     //creating a form  and input field for when the button is pressed for the first time
-    var title = document.getElementsByClassName("titlecenter");
+    var title = document.getElementsByClassName("title");
     title[0].className = "moveleft";
     title = document.getElementsByClassName("moveleft");
     title[0].ontransitionend = () => {
@@ -44,7 +42,7 @@ button.addEventListener("click",function(event) {
       form.appendChild(playlist);
       button.innerHTML = "Submit!";
 
-      document.getElementById("ti").appendChild(form);
+      document.getElementById("topContainer").appendChild(form);
     }
   }
 })
