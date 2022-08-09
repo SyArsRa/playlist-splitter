@@ -19,7 +19,6 @@ button.addEventListener("click",function(event) {
   var title = document.getElementsByClassName("title");
   title[0].className = "moveleft";
   title = document.getElementsByClassName("moveleft");
-  title[0].ontransitionend = () => {
   var form = document.createElement("form");
   form.setAttribute("method", "post");
   form.setAttribute("align", "center");
@@ -29,21 +28,4 @@ button.addEventListener("click",function(event) {
   form.setAttribute("action","/authorization/");
   document.getElementById("topContainer").appendChild(form);
   document.getElementById("playlistForm").submit();
-    }
   })
-
-/*
-event listner which checks for the the form input field being empty or not and if empty disables the button, works only after the button
-has been pressed once
-
-document.getElementById("hoverbtn").addEventListener("mouseover", function(){
-  input = document.getElementById("playid");
-  if (input != null) {
-    if (input.value.trim().length == 0 ){
-      button.disabled = true;
-    } else {
-      button.disabled = false;
-    }
-  }
-})
-*/

@@ -133,9 +133,9 @@ nav a:hover{
   margin-top: auto;
   position: absolute;
   top: 6.6%;
-  left: 15%;
+  left: -20%;
   -webkit-animation: moveLeft 2s linear;
-  transition-duration: 4s;
+  transition-duration: 1.5s;
   transition-delay: 0s ;
 }
 
@@ -259,12 +259,14 @@ nav a:hover{
 .cardsHover {
   background: #43cea2 !important;
 }
-.btnChoice{
+.btnChoice , .btnChoice:disabled , .btnChoice:disabled:hover{
   background: #185a9d;
   margin-left: 40px;
   padding: 5px 12px;
   text-align: center;
   border-radius: 20px;
+  border-color: black;
+  border-width: thin;
   font-size: 25px;
   display: block;
   color: #fff;

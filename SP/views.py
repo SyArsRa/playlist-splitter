@@ -19,16 +19,28 @@ def homepageError(request):
 
 @csrf_exempt
 def authorization(request):
-    return redirect(authcode())
+    try:
+        return redirect(authcode())
+    except Exception:
+        messages.error(request,'Unexpected Error, Please try again later')
+        return redirect('/Error/')
 
 def reponse(request):
-    authcode = request.GET.get('code')
-    request.session["token"] = tokens(authcode)
-    request.session["userId"] = me(request.session["token"])
+    try:
+        authcode = request.GET.get('code')
+        request.session["token"] = tokens(authcode)
+        request.session["userId"] = me(request.session["token"])
+    except Exception:
+        messages.error(request,'Unexpected Error, Please try again later')
+        return redirect('/Error/')
     return redirect('/choice/')
 
 def choice(request):
-    items = playlists(request.session["token"])
+    try:
+        items = playlists(request.session["token"])
+    except Exception:
+        messages.error(request,'Unexpected Error, Please try again later')
+        return redirect('/Error/')
     return render(request,'choice.html',{ 'playlists': items })
 
 @csrf_exempt
