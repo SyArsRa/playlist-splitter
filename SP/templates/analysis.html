@@ -14,23 +14,22 @@
     <a href={% url 'home' %} class="homeAnchor"><span class="material-symbols-outlined">home</span></a>
     <div>
       <!-- loop through list and displayed each sliced playlist indivually  -->
-      {% for genre,list in playlists.items %}
-        {% for type,songs in list.items %}
+      {% for cluster,list in playlists.items %}
         <div class="wrapperAnalysis">
           <div style="display:inline; margin:0.3% 1% 0 1%">
-          <h3 align="center">{{type}} &nbsp {{genre}}</h3>
+          <h3 align="center">Playlist</h3>
 
           <form align="center" action={% url 'analysis'%} method="post">
-            {% if genre|add:type in created%}
-              <button class="btnPlaylistCreated" value="{{ genre }} {{ type }}" type="submit" name="btnPlaylist" disabled>
+            {% if cluster in created%}
+              <button class="btnPlaylistCreated" value="{{ cluster }}" type="submit" name="btnPlaylist" disabled>
                 <span class="material-symbols-outlined">done</span>
               </button>
             {% else %}
-              <button class="btnPlaylist" value="{{ genre }} {{ type }}" type="submit" name="btnPlaylist">Create</button>
+              <button class="btnPlaylist" value="{{ cluster }}" type="submit" name="btnPlaylist">Create</button>
             {% endif %}
           </form>
         </div>
-            {% for song in songs %}
+            {% for song in list %}
             <h5 class="sideSlide">
               <img src={{ song.image }} alt={{ song.name }} width="100px" height="100px"></img><br>
               <div class="textBreak">
@@ -42,7 +41,6 @@
             </h5>
           {% endfor %}
         </div>
-        {% endfor %}
       {% endfor %}
   </div>
   <script src="{% static 'scriptAnalysis.js' %}" ></script>
