@@ -22,11 +22,11 @@ Django python framework is used to connect the backend of the website to the fro
 ## Images
   ![image](https://user-images.githubusercontent.com/64284177/183650698-d479fbda-7376-4a57-aa59-6b7025ac50e4.png)
   
-  ![image](https://user-images.githubusercontent.com/64284177/183650787-30280ac2-eaa0-452b-aeb3-319f8a9ad072.png)
+  ![image](https://user-images.githubusercontent.com/64284177/185793648-d70d2be5-c226-4781-82ab-14f3cea9f72a.png)
   
   ![image](https://user-images.githubusercontent.com/64284177/181751999-dece7375-f67f-4455-a806-3287dfc2ae23.png)
   
-  ![image](https://user-images.githubusercontent.com/64284177/181752051-824faa34-a4b4-4338-8ffd-4f52b246b2a9.png)
+  ![image](https://user-images.githubusercontent.com/64284177/185793501-c9330373-3c94-45be-9504-97a7e9259918.png)
 
 
 
