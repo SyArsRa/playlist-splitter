@@ -1,11 +1,13 @@
 # Playlist-Splitter
 
 ## Function
-This is a website which take a spotify playlist and splits it into multiple different smaller playlist by gropuing songs based on common features like
+This is a website which take a spotify playlist and splits it into multiple different using a machine learning model into 
+smaller playlist by gropuing songs based on common features like:
 danceability, energy, speechiness, acousticness, instrumentalness, valence and liveness.
 
 ## Backend
-This website uses ***Spotify Api*** to get infromation about a playlist , its contents and different properties of songs   
+This website uses ***Spotify Api*** to get infromation about a playlist , its contents and different properties of songs and then breaks playlist
+into smaller playlist using sklearn library's **kmeans clustering mahcine learning model** 
 The backend is build on ***Python*** which makes the api calls.
 
 ## FrontEnd
