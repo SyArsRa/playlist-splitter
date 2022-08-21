@@ -2,8 +2,8 @@
 
 ## Function
 This is a website which take a spotify playlist and splits it into multiple different using a machine learning model into 
-smaller playlist by gropuing songs based on common features like:
-danceability, energy, speechiness, acousticness, instrumentalness, valence and liveness.
+smaller playlist by grouping songs based on common features like:
+danceability, energy, speechiness, acousticness, instrumentalness, valence liveness and tempo.
 
 ## Backend
 This website uses ***Spotify Api*** to get infromation about a playlist , its contents and different properties of songs and then breaks playlist
